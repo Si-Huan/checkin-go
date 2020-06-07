@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/css/mdui.min.css">
+    <script src="./static/js/mdui.min.js"></script>
+    <script src="./static/js/vue.js"></script>
+    <script src="./static/js/axios.js"></script>
+    <link rel="shortcut icon" href="./static/favicon.ico">
+    <title>2018级同学每日数据报送</title>
+</head>
+
+<body class="mdui-theme-primary-teal mdui-theme-accent-teal">
+    <div class="mdui-toolbar mdui-color-teal-100" style="margin-bottom:50px">
+        <div class="mdui-toolbar-spacer"></div>
+        <span class="mdui-typo-title">2018级同学每日数据报送</span>
+        <div class="mdui-toolbar-spacer"></div>
+    </div>
+    <div id="app" class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-12">
+                <div class="mdui-card" style="padding: 10px;">
+                    <h3>异常</h3>
+                    <div class="mdui-panel" mdui-panel>
+
+                        <div v-for="item in yc" class="mdui-panel-item mdui-panel-item-open">
+                          <div class="mdui-panel-item-header">{{ item.Student.姓名 }}</div>
+                          <div class="mdui-panel-item-body">
+                              <p>
+                                  班级：{{item.Student.班级}}
+                              </p>
+                              <br/>
+                              <p v-for="k,v in item.Infos">
+                                  {{v}}:  {{ k }}
+                              </p>
+                          </div>
+                        </div>                        
+                      </div>
+                    <h3>未填写</h3>
+                    <div class="mdui-table">
+                        <table class="mdui-table">
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>班级</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in wdk">
+                                    <td>
+                                        {{ item.姓名 }}
+                                    </td>
+                                    <td>
+                                        {{ item.班级 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        app = new Vue({
+            el: "#app",
+            data: {
+                wdk: [],
+                yc: [],
+            },
+            created: function () {
+                let data = new FormData();
+                data.append("class","All")
+                axios.post('/checkinfo',data)
+                    .then((res => (this.wdk = res.data.Data.Nocheck, this.yc = res.data.Data.Abnormal)))
+            }
+        })
+    </script>
+</body>
+
+</html>
