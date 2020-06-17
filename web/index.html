@@ -99,7 +99,6 @@
                             </label>
                         </div>
 
-
                         <div class="mdui-typo-subheading" style="font-weight: 300; padding-top: 30px;">
                             最近20天之内有无更换过居住地？</div>
                         <div style="margin-left: 30px;">
@@ -120,6 +119,50 @@
                             <label class="mdui-textfield-label">具体情况</label>
                             <input v-model="caa" class="mdui-textfield-input" type="text" />
                         </div>
+
+                        <div class="mdui-typo-subheading" style="font-weight: 300; padding-top: 30px;">
+                            六月以来是否有北京旅居史？</div>
+                        <div style="margin-left: 30px;">
+                            <label class="mdui-radio">
+                                <input type="radio" value="无" name="bj" v-model="bjljs" />
+                                <i class="mdui-radio-icon"></i>
+                                无
+                            </label>
+
+                            <label class="mdui-radio">
+                                <input type="radio" value="有" name="bj" v-model="bjljs" />
+                                <i class="mdui-radio-icon"></i>
+                                有
+                            </label>
+
+                        </div>
+                        <div v-if="bjljs=='有'" class="mdui-textfield mdui-textfield-floating-label">
+                            <label class="mdui-textfield-label">描述具体情况</label>
+                            <input v-model="bjljsjt" class="mdui-textfield-input" type="text" />
+                        </div>
+
+                        <div class="mdui-typo-subheading" style="font-weight: 300; padding-top: 30px;">
+                            六月以来是否有家属有北京旅居史？</div>
+                        <div style="margin-left: 30px;">
+                            <label class="mdui-radio">
+                                <input type="radio" value="无" name="jbj" v-model="jsbjljs" />
+                                <i class="mdui-radio-icon"></i>
+                                无
+                            </label>
+
+                            <label class="mdui-radio">
+                                <input type="radio" value="有" name="jbj" v-model="jsbjljs" />
+                                <i class="mdui-radio-icon"></i>
+                                有
+                            </label>
+
+                        </div>
+                        <div v-if="jsbjljs=='有'" class="mdui-textfield mdui-textfield-floating-label">
+                            <label class="mdui-textfield-label">描述具体情况</label>
+                            <input v-model="jsbjljsjt" class="mdui-textfield-input" type="text" />
+                        </div>
+
+
                         <div class="mdui-card-actions">
                             <button @click="docard" class="mdui-btn mdui-ripple mdui-color-teal-300">打卡</button>
                         </div>
@@ -171,6 +214,10 @@
                 cap: '',
                 caa: '',
                 fasao: '',
+                bjljs: '',
+                bjljsjt: '',
+                jsbjljs: '',
+                jsbjljsjt: '',
                 errmsg: '',
                 province: [{
                     "name": "北京市",
@@ -2101,6 +2148,32 @@
                     } else {
                         var inst = new mdui.Dialog('#dialog');
                         this.errmsg = '请填写居住地变更情况！'
+                        inst.open()
+                        return
+                    }
+
+                    if (this.bjljs == '无' || (this.bjljs == '有' && this.bjljsjt != '')) {
+                        if (this.bjljs == '有') {
+                            data.append('北京旅居史', this.bjljsjt)
+                        } else {
+                            data.append('北京旅居史', '无')
+                        }
+                    } else {
+                        var inst = new mdui.Dialog('#dialog');
+                        this.errmsg = '请填写北京旅居史情况！'
+                        inst.open()
+                        return
+                    }
+
+                    if (this.jsbjljs == '无' || (this.jsbjljs == '有' && this.jsbjljsjt != '')) {
+                        if (this.jsbjljs == '有') {
+                            data.append('家属北京旅居史', this.jsbjljsjt)
+                        } else {
+                            data.append('家属北京旅居史', '无')
+                        }
+                    } else {
+                        var inst = new mdui.Dialog('#dialog');
+                        this.errmsg = '请填写家属北京旅居史情况！'
                         inst.open()
                         return
                     }

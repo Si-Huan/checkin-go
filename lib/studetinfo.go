@@ -14,6 +14,8 @@ var NormalInfos = map[string]string{
 	"体温":         "正常",
 	"十五天内是否有过感冒": "无",
 	"居住地变更":      "无",
+	"北京旅居史":      "无",
+	"家属北京旅居史":    "无",
 }
 
 type CheckInfo struct {
