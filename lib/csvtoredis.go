@@ -274,7 +274,7 @@ func GetInfosFromForm(req *http.Request) (map[string]string, []string, error) {
 
 }
 
-func (r *RedisDB) Reload() {
+func (r *RedisDB) Buckup() {
 	nTime := time.Now()
 	yesTime := nTime.AddDate(0, 0, -1)
 	Day := yesTime.Format("2006-01-02")
@@ -317,5 +317,10 @@ func (r *RedisDB) Reload() {
 	r.parent.logger.WithFields(logrus.Fields{
 		"scope": "csv/DumpData",
 	}).Info("Dumped!")
+	// r.LoadData()
+}
+
+func (r *RedisDB) Reload() {
+	r.Buckup()
 	r.LoadData()
 }

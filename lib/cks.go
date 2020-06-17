@@ -2,6 +2,7 @@ package cks
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -38,4 +39,22 @@ func (c *Cks) Start() {
 
 	c.Server.Start()
 	c.Timer.Start()
+	go c.HandelCmd()
+}
+
+func (c *Cks) HandelCmd() {
+	var cmd string
+
+	for {
+		fmt.Print("-> ")
+		fmt.Scanln(&cmd)
+		switch cmd {
+		case "buckup":
+			c.RedisDB.Buckup()
+			break
+		case "reload":
+			c.RedisDB.Reload()
+			break
+		}
+	}
 }
