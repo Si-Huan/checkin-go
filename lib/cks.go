@@ -49,7 +49,7 @@ func (c *Cks) HandelCmd() {
 		fmt.Print("-> ")
 		fmt.Scanln(&cmd)
 		switch cmd {
-		case "buckup":
+		case "backup":
 			c.RedisDB.Buckup()
 			break
 		case "reload":

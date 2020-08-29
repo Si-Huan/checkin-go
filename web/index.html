@@ -120,7 +120,19 @@
                             <input v-model="caa" class="mdui-textfield-input" type="text" />
                         </div>
 
-                        <div class="mdui-typo-subheading" style="font-weight: 300; padding-top: 30px;">
+                        <h3>是否属于应检尽检四类人员？</h3>
+                        <div>
+                            <select class="mdui-select" mdui-select v-model="yjjj">
+                                <option disabled value="">请选择</option>
+                                <div></div>
+                                <option>不属于</option>
+                                <option>有发热等可疑症状</option>
+                                <option>本人或家庭成员为密切接触者</option>
+                                <option>14天内本人或家庭成员有疫情中高风险地区（含境外）旅游史、接触史</option>
+                                <option>21天内所居住社区（村居）发生疫情</option>
+                            </select>
+                        </div>
+                        <!-- <div class="mdui-typo-subheading" style="font-weight: 300; padding-top: 30px;">
                             六月以来是否有北京旅居史？</div>
                         <div style="margin-left: 30px;">
                             <label class="mdui-radio">
@@ -160,7 +172,7 @@
                         <div v-if="jsbjljs=='有'" class="mdui-textfield mdui-textfield-floating-label">
                             <label class="mdui-textfield-label">描述具体情况</label>
                             <input v-model="jsbjljsjt" class="mdui-textfield-input" type="text" />
-                        </div>
+                        </div> -->
 
 
                         <div class="mdui-card-actions">
@@ -168,6 +180,7 @@
                         </div>
                     </div>
                 </div>
+                <a href="https://checkin.sakuya.love:2334">SiHuan 搭建的网盘绝赞测试中，欢迎来玩</a>
             </div>
         </div>
 
@@ -214,10 +227,11 @@
                 cap: '',
                 caa: '',
                 fasao: '',
-                bjljs: '',
-                bjljsjt: '',
-                jsbjljs: '',
-                jsbjljsjt: '',
+                yjjj:'',
+                // bjljs: '',
+                // bjljsjt: '',
+                // jsbjljs: '',
+                // jsbjljsjt: '',
                 errmsg: '',
                 province: [{
                     "name": "北京市",
@@ -2151,32 +2165,40 @@
                         inst.open()
                         return
                     }
-
-                    if (this.bjljs == '无' || (this.bjljs == '有' && this.bjljsjt != '')) {
-                        if (this.bjljs == '有') {
-                            data.append('北京旅居史', this.bjljsjt)
-                        } else {
-                            data.append('北京旅居史', '无')
-                        }
+                    if (this.yjjj != '') {
+                        fasao = this.yjjj
+                        data.append('应检尽检四类人员', this.yjjj)
                     } else {
                         var inst = new mdui.Dialog('#dialog');
-                        this.errmsg = '请填写北京旅居史情况！'
+                        this.errmsg = '请填写是否属于应检尽检四类人员！'
                         inst.open()
                         return
                     }
+                    // if (this.bjljs == '无' || (this.bjljs == '有' && this.bjljsjt != '')) {
+                    //     if (this.bjljs == '有') {
+                    //         data.append('北京旅居史', this.bjljsjt)
+                    //     } else {
+                    //         data.append('北京旅居史', '无')
+                    //     }
+                    // } else {
+                    //     var inst = new mdui.Dialog('#dialog');
+                    //     this.errmsg = '请填写北京旅居史情况！'
+                    //     inst.open()
+                    //     return
+                    // }
 
-                    if (this.jsbjljs == '无' || (this.jsbjljs == '有' && this.jsbjljsjt != '')) {
-                        if (this.jsbjljs == '有') {
-                            data.append('家属北京旅居史', this.jsbjljsjt)
-                        } else {
-                            data.append('家属北京旅居史', '无')
-                        }
-                    } else {
-                        var inst = new mdui.Dialog('#dialog');
-                        this.errmsg = '请填写家属北京旅居史情况！'
-                        inst.open()
-                        return
-                    }
+                    // if (this.jsbjljs == '无' || (this.jsbjljs == '有' && this.jsbjljsjt != '')) {
+                    //     if (this.jsbjljs == '有') {
+                    //         data.append('家属北京旅居史', this.jsbjljsjt)
+                    //     } else {
+                    //         data.append('家属北京旅居史', '无')
+                    //     }
+                    // } else {
+                    //     var inst = new mdui.Dialog('#dialog');
+                    //     this.errmsg = '请填写家属北京旅居史情况！'
+                    //     inst.open()
+                    //     return
+                    // }
 
                     axios.post('/checkin', data)
                         .then(resp => (this.checkcode = resp.data.Code, this.errmsg = resp.data.Msg))

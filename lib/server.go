@@ -69,11 +69,11 @@ func (s *Server) Start() {
 
 	})
 
-	// go http.ListenAndServe("0.0.0.0:2333", server)
-	go http.ListenAndServeTLS("0.0.0.0:2333", "cert.pem", "privkey.pem", server)
+	go http.ListenAndServe("127.0.0.1:5051", server)
+	// go http.ListenAndServeTLS("0.0.0.0:2333", "cert.pem", "privkey.pem", server)
 	s.parent.logger.WithFields(logrus.Fields{
 		"scope": "server/Start",
-	}).Info("Listing 0.0.0.0:2333")
+	}).Info("Listing 127.0.0.1:5051")
 
 }
 
